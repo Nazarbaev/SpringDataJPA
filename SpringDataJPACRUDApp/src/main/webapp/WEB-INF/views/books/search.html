@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Index</title>
+</head>
+<body>
+
+<form th:method="POST" th:action="@{/books/search}">
+    <label for="query">Insert your query: </label>
+    <input type="text" id="query" name="query"/>
+    <br/>
+    <input type="submit" value="Search!"/>
+</form>
+
+<div th:if="${books}">
+    <div th:if="${books.isEmpty()}">
+        <span>Book is not found</span>
+    </div>
+
+    <div th:each="book : ${books}">
+
+        <a th:href="@{/books/{id}(id=${book.getId()})}"
+           th:text="${book.getName() + ', ' + book.getAuthor() + ', ' + book.getYear()}">book</a>
+
+        <div th:if="${book.getOwner() != null}">
+            <span>Book is booked by: </span> <span th:text="${book.getOwner().getName()}">Person Name</span>
+        </div>
+
+        <div th:if="${book.getOwner() == null}">
+            <span>Book is available</span>
+        </div>
+
+        <hr/>
+    </div>
+</div>
+
+</body>
+</html>
